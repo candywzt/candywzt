@@ -15,7 +15,7 @@ class ServerConnection {
         if (this._isConnected() || this._isConnecting()) return;
         const ws = new WebSocket(this._endpoint());
         ws.binaryType = 'arraybuffer';
-        ws.onopen = e => console.log('WS: server connected');
+        ws.onopen = e => console.log('WS: 服务已连接');
         ws.onmessage = e => this._onMessage(e.data);
         ws.onclose = e => this._onDisconnect();
         ws.onerror = e => console.error(e);
@@ -45,7 +45,7 @@ class ServerConnection {
                 Events.fire('display-name', msg);
                 break;
             default:
-                console.error('WS: unkown message type', msg);
+                console.error('WS: 未知信息类型', msg);
         }
     }
 
@@ -69,7 +69,7 @@ class ServerConnection {
     }
 
     _onDisconnect() {
-        console.log('WS: server disconnected');
+        console.log('WS: 连接已断开');
         Events.fire('notify-user', '连接失败，5秒后重试...');
         clearTimeout(this._reconnectTimer);
         this._reconnectTimer = setTimeout(_ => this._connect(), 5000);
@@ -210,7 +210,7 @@ class Peer {
         this._reader = null;
         this._busy = false;
         this._dequeueFile();
-        Events.fire('notify-user', 'File transfer completed.');
+        Events.fire('notify-user', '文件传输完成.');
     }
 
     sendText(text) {
@@ -291,7 +291,7 @@ class RTCPeer extends Peer {
     }
 
     _onChannelOpened(event) {
-        console.log('RTC: channel opened with', this._peerId);
+        console.log('RTC: 通道已打开于', this._peerId);
         const channel = event.channel || event.target;
         channel.onmessage = e => this._onMessage(e.data);
         channel.onclose = e => this._onChannelClosed();
@@ -299,7 +299,7 @@ class RTCPeer extends Peer {
     }
 
     _onChannelClosed() {
-        console.log('RTC: channel closed', this._peerId);
+        console.log('RTC: 通道关闭', this._peerId);
         if (!this.isCaller) return;
         this._connect(this._peerId, true); // reopen the channel
     }
@@ -320,10 +320,10 @@ class RTCPeer extends Peer {
     _onIceConnectionStateChange() {
         switch (this._conn.iceConnectionState) {
             case 'failed':
-                console.error('ICE Gathering failed');
+                console.error('ICE 收集失败');
                 break;
             default:
-                console.log('ICE Gathering', this._conn.iceConnectionState);
+                console.log('ICE 收集', this._conn.iceConnectionState);
         }
     }
 
