@@ -98,14 +98,16 @@
 </div>
 <script>
     function checkAndRedirect() {
-        const urls = ['http://192.168.31.200','http://172.16.0.20','https://home.candyenk.com'];
-        const fallbackUrl = 'https://www.candyenk.com';
+        const urls = ['https://192.168.31.200','https://172.16.0.20','https://fn.candyenk.com'];
+        const fallbackUrl = 'https://www.candyenk.com/404.html';
         function tryNext(index = 0) {
             if (index >= urls.length) {
                 window.location.href = fallbackUrl;
                 return;
             }
-            fetch(urls[index]).then(response => {
+            fetch(urls[index], {
+                signal: AbortSignal.timeout(2000)
+            }).then(response => {
                 if (response.ok) {
                     window.location.href = urls[index];
                 } else {
