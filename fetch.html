@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh">
 <head>
     <meta charset="UTF-8">
-    <title>正在打开</title>
+    <title>面板选择器</title>
     <style>
         .google-loader {
             display: block;
@@ -22,21 +22,25 @@
 
         .google-loader span:nth-child(1) {
             background: #4285f4;
+            cursor: auto;
             animation: move 1s ease-in-out -0.25s infinite alternate;
         }
 
         .google-loader span:nth-child(2) {
             background: #db4437;
+            cursor: auto;
             animation: move 1s ease-in-out -0.5s infinite alternate;
         }
 
         .google-loader span:nth-child(3) {
             background: #f4b400;
+            cursor: auto;
             animation: move 1s ease-in-out -0.75s infinite alternate;
         }
 
         .google-loader span:nth-child(4) {
             background: #0f9d58;
+            cursor: auto;
             animation: move 1s ease-in-out -1s infinite alternate;
         }
 
@@ -59,28 +63,27 @@
 
         h1 span:first-child {
             color: #4285f4;
+            cursor: pointer;
         }
 
         h1 span:nth-child(2) {
             color: #db4437;
+            cursor: auto;
         }
 
         h1 span:nth-child(3) {
             color: #f4b400;
+            cursor: pointer;
         }
 
         h1 span:nth-child(4) {
             color: #4285f4;
+            cursor: auto;
         }
 
         h1 span:nth-child(5) {
             color: #0f9d58;
-        }
-
-        h1 span:last-child {
-            color: #db4437;
-            transform: rotate(-20deg);
-            display: inline-block;
+            cursor: pointer;
         }
 
         html,
@@ -95,12 +98,11 @@
 </head>
 <body>
 <h1>
-    <span>请</span>
-    <span>稍</span>
-    <span>侯</span>
+    <span onclick="window.location.href = 'https://192.168.31.200'">1⃣</span>
     <span>·</span>
+    <span onclick="window.location.href = 'https://172.16.0.20'">2⃣</span>
     <span>·</span>
-    <span>·</span>
+    <span onclick="window.location.href = 'https://fn.candyenk.com'">3⃣</span>
 </h1>
 
 <div class="google-loader">
@@ -109,33 +111,6 @@
     <span></span>
     <span></span>
 </div>
-<script>
-    function checkAndRedirect() {
-        const urls = ['https://192.168.31.200', 'https://172.16.0.20', 'https://fn.candyenk.com'];
-        const fallbackUrl = 'https://www.candyenk.com/404.html';
-
-        function tryNext(index = 0) {
-            if (index >= urls.length) {
-                window.location.href = fallbackUrl;
-                return;
-            }
-            fetch(urls[index], {
-                signal: AbortSignal.timeout(2000),
-                mode: 'no-cors'
-            }).then(() => {
-                window.location.href = urls[index];
-            }).catch((e) => {
-                tryNext(index + 1);
-            });
-        }
-
-        tryNext();
-    }
-
-    // 页面加载后自动执行检测重定向
-    window.addEventListener('load', checkAndRedirect);
-</script>
-
 </body>
 
 </html>
